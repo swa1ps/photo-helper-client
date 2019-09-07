@@ -22,3 +22,15 @@
   top: 0;
   left: 0;
 }
+
+.Preloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.Spinner {
+  width: 24px;
+  margin-right: 20px;
+}

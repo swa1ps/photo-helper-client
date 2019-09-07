@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, Group } from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, Group, Spinner } from '@vkontakte/vkui';
 import './Persik.css';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 
@@ -11,8 +11,14 @@ import MobileDetect from 'mobile-detect';
 
 class Persik extends React.Component {
   videoRef = React.createRef();
-  canvasRef = React.createRef();
+	canvasRef = React.createRef();
 
+	constructor(props) {
+		super(props)
+		this.state = {
+			isLoading: true
+		}
+	}
 	componentDidMount() {
 		const md = new MobileDetect(window.navigator.userAgent);
 		console.log(!md.mobile())
@@ -36,11 +42,21 @@ class Persik extends React.Component {
       const modelPromise = cocoSsd.load();
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
-          this.detectFrame(this.videoRef.current, values[0]);
+					this.detectFrame(this.videoRef.current, values[0]);
         })
         .catch(error => {
           console.error(error);
-        });
+				})
+				.then(() => {
+					console.log('then')
+
+				})
+				.finally(() => {
+					this.setState({
+						isLoading: false
+					})
+					console.log('finally')
+				})
     }
   }
 
@@ -97,6 +113,13 @@ class Persik extends React.Component {
 						Результаты
 					</PanelHeader>
 					<Group>
+						{
+							this.state.isLoading && (
+								<div className='Preloader'>
+									<Spinner className="Spinner" /> <span>Подготовка помощника</span>
+								</div>
+							) 
+						}
 						<section className="Wrapper">
 							<video
 								autoPlay
