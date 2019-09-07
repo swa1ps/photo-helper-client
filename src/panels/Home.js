@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, Button, Group, Div, PanelHeader, File } from '@vkontakte/vkui';
+import { Panel, Button, Group, Div, PanelHeader, File, Separator } from '@vkontakte/vkui';
 import Icon24Document from '@vkontakte/icons/dist/24/document';
 
 const Home = ({ id, go }) => {
-	const [href, setHref] = React.useState(null)
+	const [preview, setPreview] = React.useState(null)
+	const [result, setResult] = React.useState(null)
 
 	function handleChangeFile(e) {
-		console.log(e)
-		setHref(URL.createObjectURL(e.target.files[0]));
+		setPreview(URL.createObjectURL(e.target.files[0]));
+		setResult(URL.createObjectURL(e.target.files[0]));
 	}
 
 	return (
@@ -32,8 +33,16 @@ const Home = ({ id, go }) => {
 			</Group>
 			<Group>
 				{
-					href && (
-						<img className="Preview" src={href} alt=""/>
+					preview && (
+						<img className="Preview" src={preview} alt=""/>
+					)
+				}
+				{
+					result && (
+						<>
+							<Separator style={{ margin: '12px 0' }} />
+							<img className="Preview" src={result} alt=""/>
+						</>
 					)
 				}
 			</Group>
