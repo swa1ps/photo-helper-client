@@ -1,25 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, platform, Group } from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, Group } from '@vkontakte/vkui';
 import './Persik.css';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 
-const osname = platform();
+import MobileDetect from 'mobile-detect';
 
 class Persik extends React.Component {
   videoRef = React.createRef();
   canvasRef = React.createRef();
 
-  componentDidMount() {
+	componentDidMount() {
+		const md = new MobileDetect(window.navigator.userAgent);
+		console.log(!md.mobile())
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const webCamPromise = navigator.mediaDevices
         .getUserMedia({
           audio: false,
           video: {
-            facingMode: { exact: "environment" }
+            facingMode: !md.mobile() ? "user" : { exact: "environment" }
           }
         })
         .then(stream => {
