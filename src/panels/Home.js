@@ -24,11 +24,11 @@ const Home = ({ id, go }) => {
 						onChange={handleChangeFile}
 					/>
 				</Div>
-				{/* <Div>
+				<Div>
 					<Button size="xl" level="2" onClick={go} data-to="persik">
 						Сделать фото
 					</Button>
-				</Div> */}
+				</Div>
 			</Group>
 			<Group>
 				{

@@ -10,3 +10,9 @@
   width: 90%;
   margin: 0px auto;
 }
+
+.size {
+  position: fixed;
+  top: 0;
+  left: 0;
+}

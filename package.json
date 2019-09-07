@@ -20,6 +20,8 @@
     "react-scripts": "^2.1.8"
   },
   "dependencies": {
+    "@tensorflow-models/coco-ssd": "^2.0.0",
+    "@tensorflow/tfjs": "^1.2.9",
     "@vkontakte/icons": "^1.8.2",
     "@vkontakte/vk-connect": "^1.5.5",
     "@vkontakte/vkui": "^2.29.2",
