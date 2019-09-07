@@ -19,7 +19,7 @@ class Persik extends React.Component {
         .getUserMedia({
           audio: false,
           video: {
-            facingMode: "user"
+            facingMode: { exact: "environment" }
           }
         })
         .then(stream => {
