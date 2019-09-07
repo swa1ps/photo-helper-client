@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS} from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, platform, Group } from '@vkontakte/vkui';
 import './Persik.css';
-import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
@@ -90,26 +89,29 @@ class Persik extends React.Component {
 				<Panel id={props.id}>
 					<PanelHeader
 						left={<HeaderButton onClick={props.go} data-to="home">
-							{osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+							<Icon24Back/>
 						</HeaderButton>}
 					>
 						Результаты
 					</PanelHeader>
-					<video
-						className="size"
-						autoPlay
-						playsInline
-						muted
-						ref={this.videoRef}
-						width="600"
-						height="500"
-					/>
-					<canvas
-						className="size"
-						ref={this.canvasRef}
-						width="600"
-						height="500"
-					/>
+					<Group>
+						<section className="Wrapper">
+							<video
+								autoPlay
+								playsInline
+								muted
+								ref={this.videoRef}
+								width="300"
+								height="300"
+							/>
+							<canvas
+								className="Canvas"
+								ref={this.canvasRef}
+								width="300"
+								height="300"
+							/>
+						</section>
+					</Group>
 				</Panel>
 
     );

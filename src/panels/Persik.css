@@ -11,8 +11,14 @@
   margin: 0px auto;
 }
 
-.size {
-  position: fixed;
+.Wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.Canvas {
+  position: absolute;
   top: 0;
   left: 0;
 }
