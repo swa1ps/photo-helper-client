@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, Group, Spinner } from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, Group, Spinner, Button } from '@vkontakte/vkui';
 import './Persik.css';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
-
+import Icon24Camera from '@vkontakte/icons/dist/24/camera';
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 
@@ -16,12 +16,12 @@ class Persik extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			isLoading: true
+			isLoading: true,
+			hasPerson: false
 		}
 	}
 	componentDidMount() {
 		const md = new MobileDetect(window.navigator.userAgent);
-		console.log(!md.mobile())
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const webCamPromise = navigator.mediaDevices
         .getUserMedia({
@@ -47,21 +47,25 @@ class Persik extends React.Component {
         .catch(error => {
           console.error(error);
 				})
-				.then(() => {
-					console.log('then')
-
-				})
 				.finally(() => {
 					this.setState({
 						isLoading: false
 					})
-					console.log('finally')
 				})
     }
-  }
+	}
+	
+	makePhoto = (e) => {
+		console.log('sdf');
+	}
 
   detectFrame = (video, model) => {
     model.detect(video).then(predictions => {
+			const hasPerson = predictions.some(p => p.class === 'person');
+			this.setState({
+				hasPerson
+			})
+
       this.renderPredictions(predictions);
       requestAnimationFrame(() => {
         this.detectFrame(video, model);
@@ -75,7 +79,7 @@ class Persik extends React.Component {
 
     const font = "16px sans-serif";
     ctx.font = font;
-    ctx.textBaseline = "top";
+		ctx.textBaseline = "top";
     predictions.forEach(prediction => {
       const x = prediction.bbox[0];
       const y = prediction.bbox[1];
@@ -102,7 +106,7 @@ class Persik extends React.Component {
   };
 
   render() {
-		const props = this.props
+		const props = this.props;
     return (
 				<Panel id={props.id}>
 					<PanelHeader
@@ -114,11 +118,20 @@ class Persik extends React.Component {
 					</PanelHeader>
 					<Group>
 						{
-							this.state.isLoading && (
+							this.state.isLoading ? (
 								<div className='Preloader'>
 									<Spinner className="Spinner" /> <span>Подготовка помощника</span>
 								</div>
-							) 
+							) : (
+								<Button
+									size="xl"
+									level="2"
+									onClick={this.makePhoto} before={<Icon24Camera />}
+									disabled={this.state.hasPerson}
+								>
+									Сделать фото
+								</Button>
+							)
 						}
 						<section className="Wrapper">
 							<video
