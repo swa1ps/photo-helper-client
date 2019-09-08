@@ -8,15 +8,15 @@ self.__precacheManifest = [
     "url": "/photo-helper-client/static/js/runtime~main.ae6aed07.js"
   },
   {
-    "revision": "48fedec99866e5eab017",
-    "url": "/photo-helper-client/static/js/main.a7e6db9c.chunk.js"
+    "revision": "ff5cbef800bebc1f704c",
+    "url": "/photo-helper-client/static/js/main.bf1f0d73.chunk.js"
   },
   {
     "revision": "cc1551ab66c152175194",
     "url": "/photo-helper-client/static/js/2.d50118da.chunk.js"
   },
   {
-    "revision": "48fedec99866e5eab017",
+    "revision": "ff5cbef800bebc1f704c",
     "url": "/photo-helper-client/static/css/main.11f50188.chunk.css"
   },
   {
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/photo-helper-client/static/css/2.17a92958.chunk.css"
   },
   {
-    "revision": "0e37a938615e7c93865fc3d218fc1064",
+    "revision": "a7e0d46dd10e822d5c2920a1a1d6b00b",
     "url": "/photo-helper-client/index.html"
   }
 ];
