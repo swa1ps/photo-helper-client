@@ -15,7 +15,9 @@ const Home = ({ id, go, onFileChange }) => {
 						size="xl"
 						level="secondary"
 						onChange={onFileChange}
-					/>
+					>
+						Загрузить файл
+					</File>
 				</Div>
 				<Div>
 					<Button before={<Icon24Camera />} size="xl" level="2" onClick={go} data-to="persik">
