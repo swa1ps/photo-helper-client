@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel, PanelHeader, HeaderButton, Group, Spinner, Button, File } from '@vkontakte/vkui';
 import './Persik.css';
+import noPls from '../img/noPls.png';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
 import Icon28CancelOutline from '@vkontakte/icons/dist/28/cancel_outline';
@@ -62,12 +63,13 @@ class Persik extends React.Component {
 
   detectFrame = (video, model) => {
     model.detect(video).then(predictions => {
-			const hasPerson = predictions.some(p => p.class === 'person');
+			const people = predictions.filter(p => p.class === 'person');
+			const hasPerson = !!people.length;
 			this.setState({
 				hasPerson
 			})
 
-      this.renderPredictions(predictions);
+      this.renderPredictions(people);
       requestAnimationFrame(() => {
         this.detectFrame(video, model);
       });
@@ -87,14 +89,14 @@ class Persik extends React.Component {
       const width = prediction.bbox[2];
       const height = prediction.bbox[3];
 
-      ctx.strokeStyle = "#00FFFF";
+      ctx.strokeStyle = "red";
       ctx.lineWidth = 4;
       ctx.strokeRect(x, y, width, height);
 
-      ctx.fillStyle = "#00FFFF";
+      ctx.fillStyle = "red";
       const textWidth = ctx.measureText(prediction.class).width;
       const textHeight = parseInt(font, 10);
-      ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+      ctx.fillRect(x, y, textWidth + 15, textHeight + 4);
     });
 
     predictions.forEach(prediction => {
@@ -102,20 +104,21 @@ class Persik extends React.Component {
       const y = prediction.bbox[1];
 
       ctx.fillStyle = "#000000";
-      ctx.fillText(prediction.class, x, y);
+      ctx.fillText('Человек', x, y);
     });
   };
 
 
   render() {
-		const props = this.props;
-		const Icon = this.state.hasPerson ? Icon28CancelOutline : Icon24Camera;
-		const text = this.state.hasPerson ? 'СРОЧНО УБЕРИТЕ ЛЮДЕЙ!!!!!!' : 'Сфотографировать';
+		const {id, go} = this.props;
+		const { hasPerson, isLoading } = this.state;
+		const Icon = hasPerson ? Icon28CancelOutline : Icon24Camera;
+		const text = hasPerson ? 'СРОЧНО УБЕРИТЕ ЛЮДЕЙ!!!!!!' : 'Сфотографировать';
 
     return (
-				<Panel id={props.id}>
+				<Panel id={id}>
 					<PanelHeader
-						left={<HeaderButton onClick={props.go} data-to="home">
+						left={<HeaderButton onClick={go} data-to="home">
 							<Icon24Back/>
 						</HeaderButton>}
 					>
@@ -123,7 +126,7 @@ class Persik extends React.Component {
 					</PanelHeader>
 					<Group>
 						{
-							this.state.isLoading ? (
+							isLoading ? (
 								<div className='Preloader'>
 									<Spinner className="Spinner" /> <span>Подготовка помощника</span>
 								</div>
@@ -132,7 +135,7 @@ class Persik extends React.Component {
 									size="xl"
 									level="2"
 									onChange={this.makePhoto} before={<Icon />}
-									disabled={this.state.hasPerson}
+									disabled={hasPerson}
 									accept="image/*;capture=camera"
 								>
 									{text}
@@ -154,6 +157,9 @@ class Persik extends React.Component {
 								width="400"
 								height="400"
 							/>
+							{
+								hasPerson && <img src={noPls} className="NoPls" />
+							}
 						</section>
 					</Group>
 				</Panel>

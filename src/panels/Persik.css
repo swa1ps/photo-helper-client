@@ -34,3 +34,31 @@
   width: 24px;
   margin-right: 20px;
 }
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+    filter: hue-rotate(0deg);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    filter: hue-rotate(360deg);
+  }
+}
+
+.NoPls{
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 1s;
+  animation-name: flash;
+  animation-iteration-count: infinite;
+}
