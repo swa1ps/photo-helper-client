@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, Group, Spinner, Button, File } from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, Group, Spinner, File } from '@vkontakte/vkui';
 import './Persik.css';
 import noPls from '../img/noPls.png';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
@@ -56,10 +55,6 @@ class Persik extends React.Component {
 				})
     }
 	}
-	
-	makePhoto = (e) => {
-		alert('sdf');
-	}
 
   detectFrame = (video, model) => {
     model.detect(video).then(predictions => {
@@ -110,7 +105,7 @@ class Persik extends React.Component {
 
 
   render() {
-		const {id, go} = this.props;
+		const {id, go, onFileChange} = this.props;
 		const { hasPerson, isLoading } = this.state;
 		const Icon = hasPerson ? Icon28CancelOutline : Icon24Camera;
 		const text = hasPerson ? 'СРОЧНО УБЕРИТЕ ЛЮДЕЙ!!!!!!' : 'Сфотографировать';
@@ -122,7 +117,7 @@ class Persik extends React.Component {
 							<Icon24Back/>
 						</HeaderButton>}
 					>
-						Результаты
+						Сфотографировать
 					</PanelHeader>
 					<Group>
 						{
@@ -134,7 +129,7 @@ class Persik extends React.Component {
 								<File
 									size="xl"
 									level="2"
-									onChange={this.makePhoto} before={<Icon />}
+									onChange={onFileChange} before={<Icon />}
 									disabled={hasPerson}
 									accept="image/*;capture=camera"
 								>
@@ -167,9 +162,5 @@ class Persik extends React.Component {
     );
   }
 }
-Persik.propTypes = {
-	id: PropTypes.string.isRequired,
-	go: PropTypes.func.isRequired,
-};
 
 export default Persik;

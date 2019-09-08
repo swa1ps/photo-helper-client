@@ -1,10 +1,12 @@
 import React from 'react';
-import connect from '@vkontakte/vkui-connect';
 import { View } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from './panels/Home';
 import Persik from './panels/Persik';
+import Result from './panels/Result';
+
+const ROUTE = 'https://api-government-dev.itlabs.io/etagi-sale/photo/api/photo_process'
 
 class App extends React.Component {
 	constructor(props) {
@@ -12,21 +14,35 @@ class App extends React.Component {
 
 		this.state = {
 			activePanel: 'home',
-			fetchedUser: null,
+			isLoading: false,
+			result: null,
+			preview: null
 		};
 	}
 
-	componentDidMount() {
-		connect.subscribe((e) => {
-			switch (e.detail.type) {
-				case 'VKWebAppGetUserInfoResult':
-					this.setState({ fetchedUser: e.detail.data });
-					break;
-				default:
-					console.log(e.detail.type);
-			}
+	handleChangeFile = (e) => {
+		const photo = e.target.files[0];
+
+		var formData  = new FormData();
+		formData.append("photo", photo);
+		
+		this.setState({
+			isLoading: true,
+			preview: URL.createObjectURL(photo),
+			activePanel: 'result'
+		})
+
+		fetch(ROUTE, {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(json => {
+			this.setState({
+				isLoading: false,
+				result: json.link
+			})
 		});
-		connect.send('VKWebAppGetUserInfo', {});
 	}
 
 	go = (e) => {
@@ -34,10 +50,12 @@ class App extends React.Component {
 	};
 
 	render() {
+		const { result, preview, isLoading } = this.state;
 		return (
 			<View activePanel={this.state.activePanel}>
-				<Home id="home" fetchedUser={this.state.fetchedUser} go={this.go} />
-				<Persik id="persik" go={this.go} />
+				<Home id="home" go={this.go} onFileChange={this.handleChangeFile}  />
+				<Persik id="persik" onFileChange={this.handleChangeFile} go={this.go} />
+				<Result id="result" go={this.go} result={result} preview={preview} isLoading={isLoading} />
 			</View>
 		);
 	}
