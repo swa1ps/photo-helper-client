@@ -4,6 +4,7 @@ import { Panel, PanelHeader, HeaderButton, Group, Spinner, Button } from '@vkont
 import './Persik.css';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
+import Icon28CancelOutline from '@vkontakte/icons/dist/28/cancel_outline';
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 
@@ -105,8 +106,12 @@ class Persik extends React.Component {
     });
   };
 
+
   render() {
 		const props = this.props;
+		const Icon = this.state.hasPerson ? Icon28CancelOutline : Icon24Camera;
+		const text = this.state.hasPerson ? 'СРОЧНО УБЕРИТЕ ЛЮДЕЙ!!!!!!' : 'Сфотографировать';
+
     return (
 				<Panel id={props.id}>
 					<PanelHeader
@@ -126,10 +131,10 @@ class Persik extends React.Component {
 								<Button
 									size="xl"
 									level="2"
-									onClick={this.makePhoto} before={<Icon24Camera />}
+									onClick={this.makePhoto} before={<Icon />}
 									disabled={this.state.hasPerson}
 								>
-									Сделать фото
+									{text}
 								</Button>
 							)
 						}
@@ -139,14 +144,14 @@ class Persik extends React.Component {
 								playsInline
 								muted
 								ref={this.videoRef}
-								width="300"
-								height="300"
+								width="400"
+								height="400"
 							/>
 							<canvas
 								className="Canvas"
 								ref={this.canvasRef}
-								width="300"
-								height="300"
+								width="400"
+								height="400"
 							/>
 						</section>
 					</Group>
