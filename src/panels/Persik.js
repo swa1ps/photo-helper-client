@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, PanelHeader, HeaderButton, Group, Spinner, Button } from '@vkontakte/vkui';
+import { Panel, PanelHeader, HeaderButton, Group, Spinner, Button, File } from '@vkontakte/vkui';
 import './Persik.css';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
@@ -57,7 +57,7 @@ class Persik extends React.Component {
 	}
 	
 	makePhoto = (e) => {
-		console.log('sdf');
+		alert('sdf');
 	}
 
   detectFrame = (video, model) => {
@@ -128,14 +128,15 @@ class Persik extends React.Component {
 									<Spinner className="Spinner" /> <span>Подготовка помощника</span>
 								</div>
 							) : (
-								<Button
+								<File
 									size="xl"
 									level="2"
-									onClick={this.makePhoto} before={<Icon />}
+									onChange={this.makePhoto} before={<Icon />}
 									disabled={this.state.hasPerson}
+									accept="image/*;capture=camera"
 								>
 									{text}
-								</Button>
+								</File>
 							)
 						}
 						<section className="Wrapper">
